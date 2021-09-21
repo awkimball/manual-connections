@@ -1,4 +1,14 @@
-# Manual PIA VPN Connections
+# Manual-ish PIA VPN Connections
+
+## Disclaimer
+
+This is a modified version of PIA's manual-connections repo that was created to add features specific to my usecase. Currently no plans to support this outside of that
+
+### Modifications
+- A custom ipv4 route is added upon connection of the wireguard vpn, this is to allow remote access to the machine running these scripts via a separate custom wireguard tunnel on 192.168.9.0/24
+- When port forwarding is enabled, an api call using curl automatically sets qBittorrent's port setting accordingly. qBittorrent webUI credentials are set via `QBT_USER` and `QBT_PASS`.
+
+Everything following is from the original README:
 
 This repository contains documentation on how to create native WireGuard and OpenVPN connections, and also on how to enable Port Forwarding in case you require this feature. You will find a lot of information below. However if you prefer quick test, here is the __TL/DR__:
 
