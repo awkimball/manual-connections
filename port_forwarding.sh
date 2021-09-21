@@ -82,6 +82,7 @@ fi
 # save the payload_and_signature received from your previous request
 # in the env var PAYLOAD_AND_SIGNATURE, and that will be used instead.
 if [[ ! $PAYLOAD_AND_SIGNATURE ]]; then
+  echo $PF_HOSTNAME
   echo
   echo -n "Getting new signature... "
   payload_and_signature="$(curl -s -m 5 \
@@ -147,9 +148,17 @@ while true; do
       exit 1
     fi
     echo -e Forwarded port'\t'${GREEN}$port${NC}
+    echo $port>/tmp/port.txt
     echo -e Refreshed on'\t'${GREEN}$(date)${NC}
     echo -e Expires on'\t'${RED}$(date --date="$expires_at")${NC}
     echo -e "\n${GREEN}This script will need to remain active to use port forwarding, and will refresh every 15 minutes.${NC}\n"
+
+    #SECRET SAUCE DOWN HERE
+    rm -f /tmp/.cookies.txt
+    curl -s -b /tmp/.cookies.txt -c /tmp/.cookies.txt --header "Referer: http://localhost:8080" --data "username="${QBT_USER}"&password="${QBT_PASS} "http://localhost:8080/api/v2/auth/login"
+    curl -s -b /tmp/.cookies.txt -c /tmp/.cookies.txt "http://localhost:8080/api/v2/app/setPreferences" -d 'json={"listen_port": "'"$port"'"}'
+
+    rm -f /tmp/.cookies.txt
 
     # sleep 15 minutes
     sleep 900
