@@ -147,8 +147,8 @@ echo "
 Address = $(echo "$wireguard_json" | jq -r '.peer_ip')
 PrivateKey = $privKey
 $dnsSettingForVPN
-PreUp = ip route add 192.168.9.0/24 via 192.168.10.1 dev eth0
-PostDown = ip route del 192.168.9.0/24 via 192.168.10.1 dev eth0
+PreUp = ip route add 10.1.0.0/24 via 10.0.0.1 dev eth0
+PostDown = ip route del 10.1.0.0/24 via 10.0.0.1 dev eth0
 [Peer]
 PersistentKeepalive = 25
 PublicKey = $(echo "$wireguard_json" | jq -r '.server_key')
